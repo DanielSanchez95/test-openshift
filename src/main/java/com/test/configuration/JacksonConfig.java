@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JacksonConfig {
     
-    @Bean("responseJackson")
+    //@Bean("responseJackson")
     public JacksonDataFormat createJacksonFormat() {
 	JacksonDataFormat jacksonDataFormat = new JacksonDataFormat();
         jacksonDataFormat.setPrettyPrint(true);

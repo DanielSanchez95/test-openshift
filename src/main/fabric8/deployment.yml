@@ -17,4 +17,4 @@ spec:
             value: '{"server":{"undertow":{"io-threads":1, "worker-threads":2 }}}'
 		   envFrom:
             - configMapRef:
-                name: myapp-configmap
+                name: configmap-test-openshift

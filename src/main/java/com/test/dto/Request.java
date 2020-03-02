@@ -14,18 +14,51 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "Request DTO Object")
 public class Request {
     
-    @JsonProperty
+    @JsonProperty("name")
     @ApiModelProperty(dataType = "String")
     @Size(min = 10, max = 45)
-    private String param;
-
-    public String getParam() {
-        return param;
-    }
-
-    public void setParam(String param) {
-        this.param = param;
-    } 
+    private String name;
     
 
+    @JsonProperty("document")
+    @ApiModelProperty(dataType = "String")
+    @Size(min = 10, max = 45)
+    private String document;
+
+
+	
+
+
+	public Request() {
+		super();
+	}
+
+	public Request(String name, String document) {
+		super();
+		this.name = name;
+		this.document = document;
+	}
+	
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public String getDocument() {
+		return document;
+	}
+
+
+	public void setDocument(String document) {
+		this.document = document;
+	}
+    
+    
 }

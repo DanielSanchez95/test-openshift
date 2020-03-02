@@ -3,6 +3,7 @@ package com.test.routes;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
+import org.apache.camel.model.rest.RestParamType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,65 @@ public class RestDslMainRoute extends RouteBuilder {
             .setHeader("Content-Type", simple("application/json"))
             .setHeader("Accept", simple("application/json"))
             .log(LoggingLevel.INFO,log,"Response Body: ${body}");
+        
+        
+        rest()
+        	.tag("/get/user")
+        	.description("Api que contiene los servicios para consulta de usuarios")
+        	.get("/get")
+        		.to("direct:listAllUsers")
+        	.get("/get/{document}")
+        		.param()
+        			.dataType("string")
+        			.name("document")
+        			.type(RestParamType.path)
+        		.endParam()
+        		.to("direct:listUser");
+        
+        rest()
+    		.tag("/post/user")
+    		.description("Api que contiene los servicios para consulta de usuarios")
+    		.post("/post")
+    			.type(Request.class)
+    			.to("direct:createUser");
+        rest()
+	        .tag("/update/user")
+	        .description("Api que contiene los servicios para consulta de usuarios")
+	        .put("/put/{document}")
+	        	.type(Request.class)
+		        .param()
+					.dataType("string")
+					.name("document")
+					.type(RestParamType.path)
+				.endParam()
+				
+				.to("direct:updateUser");
+        rest()
+	        .tag("/delete")
+	        .description("Api que contiene los servicios para consulta de usuarios")
+	        .delete("delete/{document}")
+		        .param()
+					.dataType("string")
+					.name("document")
+					.type(RestParamType.path)
+				.endParam()
+				.to("direct:deleteUser");
+        
+        from("direct:createUser")
+        	.setProperty("serviceRest", simple("create"))
+        	.process("userProcessor");
+        from("direct:updateUser")
+        	.setProperty("serviceRest", simple("update"))
+        	.process("userProcessor");
+        from("direct:deleteUser")
+        	.setProperty("serviceRest", simple("delete"))
+        	.process("userProcessor");
+        from("direct:listUser")
+        	.setProperty("serviceRest", simple("list"))
+        	.process("userProcessor");
+        from("direct:listAllUsers")
+        	.setProperty("serviceRest", simple("listall"))
+        	.process("userProcessor");
         // @formatter:on
     }
 

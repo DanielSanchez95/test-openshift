@@ -110,6 +110,42 @@ public class RestDslMainRoute extends RouteBuilder {
 				.endParam()
 				.to("direct:deleteUser");
         
+        rest("/services/cursos")
+        	.description(env.getProperty("api.description"))
+        	.consumes("application/json")
+        	.produces("application/json")
+        .get().description(env.getProperty("api.description.service")).outType(Response.class)
+            .responseMessage().code(200).message("All users successfully returned").endResponseMessage()
+            .to("direct:listAllCourses")
+         .post().description(env.getProperty("api.description.service")).type(Request.class).description(
+                 env.getProperty("api.description.input.post")).outType(Response.class) 
+             .responseMessage().code(200).message("All users successfully created").endResponseMessage()
+             .to("direct:createCourse")
+        .put("/{document}")
+        	.description(env.getProperty("api.description.service"))
+        	.type(Request.class)
+        		.description(env.getProperty("api.description.input.post"))
+        	.outType(Response.class) 
+        	.responseMessage()
+            	.code(200)
+            	.message("All users successfully created")
+        	.endResponseMessage()
+        	.param()
+    			.dataType("string")
+    			.name("document")
+    			.type(RestParamType.path)
+    		.endParam()
+        	.to("direct:updateCourse")
+        .delete("/{document}").description(env.getProperty("api.description.service")).type(Request.class).description(
+        		env.getProperty("api.description.input.post")).outType(Response.class) 
+        	.responseMessage().code(200).message("All users successfully created").endResponseMessage()
+        	.param()
+    			.dataType("string")
+    			.name("document")
+    			.type(RestParamType.path)
+    		.endParam()
+        	.to("direct:deleteCourse");
+        
         from("direct:createUser")
         	.setProperty("serviceRest", simple("create"))
         	.process("userProcessor");
@@ -125,6 +161,21 @@ public class RestDslMainRoute extends RouteBuilder {
         from("direct:listAllUsers")
         	.setProperty("serviceRest", simple("listall"))
         	.process("userProcessor");
+        from("direct:createCourse")
+        	.setProperty("serviceRest", simple("create"))
+        	.process("courseProcessor");
+        from("direct:updateCourse")
+        	.setProperty("serviceRest", simple("update"))
+        	.process("courseProcessor");
+        from("direct:deleteCourse")
+        	.setProperty("serviceRest", simple("delete"))
+        	.process("courseProcessor");
+        from("direct:listCourse")
+        	.setProperty("serviceRest", simple("list"))
+        	.process("courseProcessor");
+        from("direct:listAllCourses")
+        	.setProperty("serviceRest", simple("listall"))
+        	.process("courseProcessor");
         // @formatter:on
     }
 

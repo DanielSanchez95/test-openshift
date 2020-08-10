@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.test.beans.ResponseHandler;
 import com.test.dto.Request;
+import com.test.dto.RequestCourse;
 import com.test.dto.Response;
 
 import io.swagger.annotations.Api;
@@ -117,13 +118,13 @@ public class RestDslMainRoute extends RouteBuilder {
         .get().description(env.getProperty("api.description.service")).outType(Response.class)
             .responseMessage().code(200).message("All users successfully returned").endResponseMessage()
             .to("direct:listAllCourses")
-         .post().description(env.getProperty("api.description.service")).type(Request.class).description(
+         .post().description(env.getProperty("api.description.service")).type(RequestCourse.class).description(
                  env.getProperty("api.description.input.post")).outType(Response.class) 
              .responseMessage().code(200).message("All users successfully created").endResponseMessage()
              .to("direct:createCourse")
         .put("/{document}")
         	.description(env.getProperty("api.description.service"))
-        	.type(Request.class)
+        	.type(RequestCourse.class)
         		.description(env.getProperty("api.description.input.post"))
         	.outType(Response.class) 
         	.responseMessage()
@@ -136,7 +137,7 @@ public class RestDslMainRoute extends RouteBuilder {
     			.type(RestParamType.path)
     		.endParam()
         	.to("direct:updateCourse")
-        .delete("/{document}").description(env.getProperty("api.description.service")).type(Request.class).description(
+        .delete("/{document}").description(env.getProperty("api.description.service")).type(RequestCourse.class).description(
         		env.getProperty("api.description.input.post")).outType(Response.class) 
         	.responseMessage().code(200).message("All users successfully created").endResponseMessage()
         	.param()
